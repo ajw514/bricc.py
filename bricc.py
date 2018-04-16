@@ -113,6 +113,7 @@ class Bricc(object):
             self.Z, self.E_gamma, self.multipolarity)
 
     def print_xml(self):
+        """Print the original XML output from briccs.""" 
         print(self.xml)
 
     def pprint(self):

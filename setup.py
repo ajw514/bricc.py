@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name = 'bricc',
     version = '0.1',
-    description = 'Python wrapper around thr Bricc conversion coefficent calculator',
+    description = 'Python wrapper around the Bricc conversion coefficent calculator',
     author = 'Andrew Ward',
     author_email = 'aw@ns.ph.liv.ac.uk',
     license = 'MIT',
@@ -12,7 +12,6 @@ setup(
                    'License :: OSI Approved :: MIT License',
                    'Topic :: Scientific/Engineering :: Physics'],
     keywords = ['internal conversion'],
-    #packages = ['bricc'],
     install_requires=['uncertainties'],
     py_modules = ['bricc'],
     )
