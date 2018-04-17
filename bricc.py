@@ -28,8 +28,9 @@ class Bricc(object):
 
         Arguments:
         Z = atomic number
-        E_gamma = gamma transition energy
-        L = gamma transition multipolarity
+        E_gamma = transition energy
+        L = transition multipolarity
+        delta = mixing ratio for mixed multipolarity transitions
 
         """
         self.Z = Z
@@ -49,8 +50,8 @@ class Bricc(object):
             decimal_places = len(str(E_gamma.n).split('.')[-1])
             nuc_err = E_gamma.s * 10**decimal_places
             self.args = ('-Z {0} -g {1:7g} -e {2:.0f} -L {3} -w {4} '
-                          '-a'.format(Z, self.E_gamma.n, nuc_err,
-                                      self.multipolarity, self.dataset))
+                         '-a'.format(Z, self.E_gamma.n, nuc_err,
+                                     self.multipolarity, self.dataset))
         else:
             self.args = '-Z {0} -g {1:7g} -L {2} -w {3} -a'.format(
                 Z, self.E_gamma.n, self.multipolarity,
@@ -64,12 +65,8 @@ class Bricc(object):
         try:
             self._xml_root = ET.fromstring(self.xml)
         except ET.ParseError:
-            print('BrIcc Error')
-            print(self.xml)
-            print('BrIcc was run with arguments:')
-            print(self.args)
-            print()
-            return
+            raise ValueError('Error running BrIcc with '
+                             'arguments {0}'.format(self.args))
 
         xml_pureCCs = self._xml_root.findall('PureCC')
         xml_mixedCCs = self._xml_root.findall('MixedCC')
@@ -78,11 +75,11 @@ class Bricc(object):
         self.shells = []
         for pureCC in xml_pureCCs:
             shell_name = self._shell_name(pureCC.attrib['Shell'])
-            self.shells.append(shell_name)
             if '/' in shell_name:
                 # ratio between two shells
                 pass
             else:
+                self.shells.append(shell_name)
                 try:
                     self.ICC[shell_name] = float(pureCC.text.strip())
                 except ValueError:
@@ -94,11 +91,11 @@ class Bricc(object):
                     pass
         for mixedCC in xml_mixedCCs:
             shell_name = self._shell_name(mixedCC.attrib['Shell'])
-            self.shells.append(shell_name)
             if '/' in shell_name:
                 # ratio between two shells
                 pass
             else:
+                self.shells.append(shell_name)
                 try:
                     self.ICC[shell_name] = float(mixedCC.text.strip())
                 except ValueError:
@@ -118,7 +115,7 @@ class Bricc(object):
             self.Z, self.E_gamma, self.multipolarity)
 
     def print_xml(self):
-        """Print the original XML output from briccs.""" 
+        """Print the original XML output from briccs."""
         print(self.xml)
 
     def pprint(self):
