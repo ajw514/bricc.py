@@ -13,6 +13,11 @@ import xml.etree.ElementTree as ET
 from uncertainties import ufloat
 
 
+__version_info__ = (0, 1, 0)
+
+__version__ = '.'.join([str(v) for v in __version_info__])
+
+
 class Bricc(object):
 
     """Output from a query to BrIcc."""

@@ -1,9 +1,12 @@
 from setuptools import setup
 
+from bricc import __version__
+
 setup(
     name = 'bricc',
-    version = '0.1.0',
+    version = __version__,
     description = 'Python wrapper around the Bricc conversion coefficent calculator',
+    long_description = 'Python wrapper around the Bricc conversion coefficent calculator',
     author = 'Andrew Ward',
     author_email = 'aw@ns.ph.liv.ac.uk',
     url = 'https://github.com/ajw514/bricc',
